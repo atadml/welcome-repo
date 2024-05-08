@@ -1,3 +1,77 @@
+# Project schema
+<details>
+  <summary> View schema </summary>
+
+```yml
+public.distribution_centers:
+  building: string
+  country: string
+  id: number
+  name: string
+  state: string
+  street: string
+  town: string
+  zip_code: string
+
+public.inventory_items:
+  cost: number
+  created_at: timestamp
+  distribution_center_id: number
+  id: number
+  product_id: number
+  quantity: number
+
+public.order_items:
+  created_at: timestamp
+  delivered_at: timestamp
+  id: number
+  inventory_item_id: number
+  order_id: number
+  returned_at: timestamp
+  sale_price: number
+  sale_quantity: number
+  shipped_at: timestamp
+  status: string
+
+public.orders:
+  created_at: datetime
+  id: number
+  status: string
+  user_id: number
+
+public.products:
+  brand: string
+  category: string
+  color: string
+  department: string
+  id: number
+  material: string
+  name: string
+  size: string
+  sku: string
+  subcategory: string
+  weight: number
+
+public.users:
+  age: number
+  city: string
+  country: string
+  created_at: timestamp
+  email: string
+  first_name: string
+  gender: string
+  id: number
+  last_name: string
+  latitude: number
+  longitude: number
+  state: string
+  traffic_source: string
+  zip: zipcode
+```
+
+</details>
+
+
 # Sample questions
 
 ## LookML:
