@@ -63,13 +63,9 @@ ORDER BY
 
 DML Copilot exists in two places.
 
-- At Project-wide level:
+- At Project-wide level
 
-    <img width="544" alt="image" src="./images/copilot_project.png">
-
-- At File-specific level:
-
-    <img width="215" alt="image" src="./images/copilot_file.png">
+- At File-specific level
 
 Examples:
 1. You're working on a new use case around functionality that does not currently exist in your data model => **Project-wide level**
@@ -84,8 +80,8 @@ Examples:
 
 The best way to get started is to try a few sample queries on this welcome project:
 
-- [sample SQL prompts](./sample_notebook2.sql.aiconv)
-- [sample LookML prompts](./sample_notebook.sql.aiconv)
+- sample SQL prompts - sample_notebook2.sql 
+- sample LookML prompts - sample_notebook.sql
 
 ## Writing Prompts
 
@@ -99,12 +95,9 @@ It is important to give a directive to DML about the language you want the answe
 Alternatively, you can connect your own git-based project. We currently support these inside projects:
 - LookML-based files
 
-1.
-<img width="348" alt="image" src="./images/git1.png">
+1. Go to "GitHub Setup" on the left panel
 
-2.
-<img width="302" alt="image" src="./images/git2.PNG">
-
+2. Follow instructions
 
 ## Additional Resources
 
