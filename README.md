@@ -1,333 +1,113 @@
-# Project schema
-<details>
-  <summary> View schema </summary>
+# Welcome to Atad.ML!
 
-```yml
-public.distribution_centers:
-  building: string
-  country: string
-  id: number
-  name: string
-  state: string
-  street: string
-  town: string
-  zip_code: string
+## Introduction
 
-public.inventory_items:
-  cost: number
-  created_at: timestamp
-  distribution_center_id: number
-  id: number
-  product_id: number
-  quantity: number
+We call this **DML**. DML is both an IDE as well as a code assistant. It currently supports **SQL** and Google's **LookML** data modeling languages.
 
-public.order_items:
-  created_at: timestamp
-  delivered_at: timestamp
-  id: number
-  inventory_item_id: number
-  order_id: number
-  returned_at: timestamp
-  sale_price: number
-  sale_quantity: number
-  shipped_at: timestamp
-  status: string
+DML works best for two types of data questions:
 
-public.orders:
-  created_at: datetime
-  id: number
-  status: string
-  user_id: number
+### 1) Data Architecture
 
-public.products:
-  brand: string
-  category: string
-  color: string
-  department: string
-  id: number
-  material: string
-  name: string
-  size: string
-  sku: string
-  subcategory: string
-  weight: number
+<details> 
+<summary>Sample Q: generate the model file in lookml </summary>
+	
+```	
+# ecommerce.model.lkml
 
-public.users:
-  age: number
-  city: string
-  country: string
-  created_at: timestamp
-  email: string
-  first_name: string
-  gender: string
-  id: number
-  last_name: string
-  latitude: number
-  longitude: number
-  state: string
-  traffic_source: string
-  zip: zipcode
-```
+include: "users.view.lkml"
+include: "orders.view.lkml"
+include: "order_items.view.lkml"
 
-</details>
-
-
-# Sample questions
-
-## LookML:
-<details>
-  <summary> Generate an order items explore for this project in lkml </summary>
-  
-```lookml
-
-# File: order_items.view.lkml
-explore: order_items {
-  join: products {
-    sql_on: ${order_items.inventory_item_id} = ${products.id} ;;
-    type: inner
-    relationship: many_to_one
-  }
-  
+explore: users {
   join: orders {
-    sql_on: ${order_items.order_id} = ${orders.id} ;;
-    type: inner
-    relationship: many_to_one
+    type: left
+    sql_on: ${users.id} = ${orders.user_id} ;;
+    relationship: one_to_many
   }
   
-  join: users {
-    sql_on: ${orders.user_id} = ${users.id} ;;
-    type: inner
-    relationship: many_to_one
-  }
-  
-  join: distribution_centers {
-    sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
-    type: inner
-    relationship: many_to_one
+  join: order_items {
+    type: left
+    sql_on: ${users.id} = ${order_items.user_id} ;;
+    relationship: one_to_many
   }
 }
+....
 ```
-</details>
 
-<details>
-  <summary> output average order value by customer registration month in lookml </summary>
-  
-```lookml
+</details> 
 
+### 2) Analytical Questions
 
-view: user_order_facts {
-  derived_table: {
-    sql:
-      SELECT
-        u.id AS user_id,
-        DATE_TRUNC('month', u.created_date) AS registration_month,
-        o.id AS order_id,
-        o.created_date AS order_date,
-        oi.sale_price AS item_sale_price
-      FROM
-        users u
-      LEFT JOIN
-        orders o
-      ON
-        u.id = o.user_id
-      LEFT JOIN
-        order_items oi
-      ON
-        o.id = oi.order_id
-    ;;
-  }
-
-  dimension: user_id {
-    type: number
-    sql: ${TABLE}.user_id ;;
-    primary_key: yes
-    hidden: yes
-  }
-
-  dimension: registration_month {
-    type: date
-    sql: ${TABLE}.registration_month ;;
-  }
-
-  measure: total_revenue {
-    type: sum
-    sql: ${order_id} * ${item_sale_price} ;;
-  }
-
-  measure: unique_customers {
-    type: count_distinct
-    sql: ${user_id} ;;
-  }
-
-  measure: average_order_value {
-    type: number
-    sql: ${total_revenue} / NULLIF(${count}, 0) ;;
-  }
-}
+<details> 
+<summary>Sample Q: Give me orders by month with price average in sql</summary>
 
 ```
-</details>
-
-<details>
-  <summary> output item return rate by customer state in lookml </summary>
-
-```lookml
-
-# In users.view.lkml
-measure: total_items_purchased {
-  type: sum
-  sql: ${order_items.sale_quantity} ;;
-}
-
-# In orders.view.lkml
-measure: total_items_returned {
-  type: sum
-  sql: ${CASE WHEN ${order_items.status} = 'returned' THEN ${order_items.sale_quantity} ELSE 0 END} ;;
-}
-
-# In the users.view.lkml (assuming you have already added the total_items_purchased measure as per the previous code block)
-measure: return_rate {
-  type: number
-  sql: ${IFNULL(${total_items_returned}, 0)} / NULLIF(${total_items_purchased}, 0) ;;
-  value_format_name: "percent_2"
-}
+SELECT 
+    EXTRACT(MONTH FROM o.created_at) AS month,
+    EXTRACT(YEAR FROM o.created_at) AS year,
+    AVG(oi.sale_price) AS average_order_price
+FROM 
+    public.orders o
+JOIN 
+    public.order_items oi ON o.id = oi.order_id
+GROUP BY 
+    EXTRACT(MONTH FROM o.created_at), EXTRACT(YEAR FROM o.created_at)
+ORDER BY 
+    year, month
 
 ```
-</details>
 
-<details>
-  <summary> generate customer ltv measure in lookml </summary>
+</details> 
 
-```lookml
+## Organization of the Copilot
 
-view: user_order_facts {
-  derived_table: {
-    sql:
-      SELECT
-        user_id,
-        COUNT(DISTINCT id) AS total_orders,
-        SUM(sale_price * sale_quantity) AS total_revenue
-      FROM
-        ecommerce.orders
-      GROUP BY
-        user_id
-    ;;
-  }
+DML Copilot exists in two places.
 
-  measure: lifetime_value {
-    type: number
-    sql: ${total_revenue} ;;
-    value_format_name: "usd"
-  }
+- At Project-wide level:
 
-  # other measures and dimensions...
-}
-```
-</details>
+    <img width="544" alt="image" src="./images/copilot_project.png">
 
-<details>
-  <summary> generate an order gross profit measure in lookml </summary>
+- At File-specific level:
 
-```lookml
+    <img width="215" alt="image" src="./images/copilot_file.png">
 
-# In the products.view.lkml file
-measure: total_sales {
-  type: sum
-  sql: ${sale_price} * ${sale_quantity} ;;
-}
+Examples:
+1. You're working on a new use case around functionality that does not currently exist in your data model => **Project-wide level**
+2. You want to make changes to your existing model file => **File-specific level**
 
-# In the order_items.view.lkml file
-measure: total_cost {
-  type: sum
-  sql: ${inventory_items.cost} * ${sale_quantity} ;;
-}
+**Important:**
 
-# In the orders.view.lkml file
-measure: gross_profit {
-  type: sum
-  sql: ${order_items.total_sales} - ${order_items.total_cost} ;;
-}
-
-```
-</details>
+<span style="color:red;">At the center of **DML** is the idea that you're making changes to the **entire file** every single time. Resulting answer code automatically overwrites the existing code inside that file, and further commits it into the remote git repo. **This is by design**</span>
 
 
-## SQL
-<details>
-  <summary> How many users made an order last month? in sql  </summary>
-  
-```sql
-SELECT
-  COUNT(*)
-FROM users AS T1
-INNER JOIN orders AS T2
-  ON T1.id = T2.user_id
-WHERE
-  T2.created_at >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month' AND T2.created_at < DATE_TRUNC('month', CURRENT_DATE)
-```
-</details>
+## Getting Started
 
-<details>
-  <summary> what was the most sold product in 2023? in sql </summary>
+The best way to get started is to try a few sample queries on this welcome project:
 
-```sql
-SELECT
-  T1.product_id
-FROM inventory_items AS T1
-INNER JOIN order_items AS T2
-  ON T1.id = T2.inventory_item_id
-INNER JOIN orders AS T3
-  ON T2.order_id = T3.id
-WHERE
-  T3.created_at >= '2023-01-01' AND T3.created_at < '2024-01-01'
-GROUP BY
-  T1.product_id
-ORDER BY
-  SUM(T2.sale_quantity) DESC
-LIMIT 1
-```
-</details>
+- [sample SQL prompts](./sample_notebook2.sql)
+- [sample LookML prompts](./sample_notebook.sql)
 
-<details>
-  <summary> calculate average delivery time by month in sql </summary>
-  
-```sql
-SELECT
-  EXTRACT(YEAR FROM delivered_at) AS year,
-  EXTRACT(MONTH FROM delivered_at) AS month,
-  AVG(delivered_at - shipped_at) AS avg_delivery_time
-FROM order_items
-GROUP BY 1, 2
-ORDER BY 1, 2
-```
-</details>
-    
-<details>
-  <summary> output item return rate by customer state in sql </summary>
-  
-```sql
-SELECT
-  T1.state AS state,
-  CAST(SUM(CASE WHEN T2.status = 'Returned' THEN 1 ELSE 0 END) AS FLOAT) * 100 / COUNT(T2.status) AS return_rate
-FROM users AS T1
-INNER JOIN orders AS T2
-  ON T1.id = T2.user_id
-GROUP BY
-  T1.state
-```
-</details>
-    
-<details>
-  <summary> output average order value by customer registration month in sql </summary>
-  
-```sql
-SELECT
-  EXTRACT(YEAR FROM created_at) AS registration_year,
-  EXTRACT(MONTH FROM created_at) AS registration_month,
-  AVG(order_value) AS avg_order_value
-FROM users u
-JOIN orders o ON u.id = o.user_id
-GROUP BY 1, 2
-ORDER BY 1, 2
-```
-</details>
+## Writing Prompts
+
+It is important to give a directive to DML about the language you want the answer to be written in. This is done with the **ending words** like this:
+- **"in sql"** - will generate sql
+- **"in lookml"** - will generate lkml code
+
+
+## Connecting to GitHub
+
+Alternatively, you can connect your own git-based project. We currently support these inside projects:
+- LookML-based files
+
+1.
+<img width="348" alt="image" src="./images/git1.png">
+
+2.
+<img width="302" alt="image" src="./images/git2.PNG">
+
+
+## Additional Resources
+
+- [Benchmark App](https://llmsql.streamlit.app/): Explore our benchmark app to learn more about the reliability of LLM-powered solutions.
+
+If you have further questions, please write to [sg@atad.ml](mailto:sg@atad.ml)
