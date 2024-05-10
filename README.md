@@ -72,7 +72,11 @@ DML Copilot exists in two places.
 
 - At Project-wide level
 
+    <img width="544" alt="image" src="https://raw.githubusercontent.com/atadml/welcome-repo/main/images/copilot_project.png">
+
 - At File-specific level
+
+    <img width="215" alt="image" src="https://raw.githubusercontent.com/atadml/welcome-repo/main/images/copilot_file.png">
 
 Examples:
 1. You're working on a new use case around functionality that does not currently exist in your data model => **Project-wide level**
@@ -94,9 +98,11 @@ It is important to give a directive to DML about the language you want the answe
 Alternatively, you can connect your own git-based project. We currently support these inside projects:
 - LookML-based files
 
-1. Go to "GitHub Setup" on the left panel
+1.
+<img width="348" alt="image" src="https://raw.githubusercontent.com/atadml/welcome-repo/main/images/git1.png">
 
-2. Follow instructions
+2.
+<img width="302" alt="image" src="https://raw.githubusercontent.com/atadml/welcome-repo/main/images/git2.PNG">
 
 ## Additional Resources
 
