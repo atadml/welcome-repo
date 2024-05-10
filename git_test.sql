@@ -1,5 +1,1 @@
-SELECT
-  *
-FROM orders
-WHERE
-  status = 'delivered'
+resolved conflict on staging
