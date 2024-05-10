@@ -18,7 +18,7 @@ DML works best for two sets of tasks:
 <details> 
 <summary>Sample Q: generate the model file in lookml </summary>
 	
-```	
+```	lookml
 # ecommerce.model.lkml
 
 include: "users.view.lkml"
@@ -48,7 +48,7 @@ explore: users {
 <details> 
 <summary>Sample Q: Give me orders by month with price average in sql</summary>
 
-```
+```sql
 SELECT 
     EXTRACT(MONTH FROM o.created_at) AS month,
     EXTRACT(YEAR FROM o.created_at) AS year,
