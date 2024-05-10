@@ -23,4 +23,5 @@ explore: order_items {
     type: inner
     relationship: many_to_one
   }
+  
 }
