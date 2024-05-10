@@ -1,12 +1,19 @@
-# Welcome to Atad.ML!
+# Welcome!
+
+## Getting Started
+
+The best way to get started is to try a few sample queries on this welcome project:
+
+- sample SQL prompts - sample_notebook2.sql 
+- sample LookML prompts - sample_notebook.sql
 
 ## Introduction
 
 We call this **DML**. DML is both an IDE as well as a code assistant. It currently supports **SQL** and Google's **LookML** data modeling languages.
 
-DML works best for two types of data questions:
+DML works best for two sets of tasks:
 
-### 1) Data Architecture
+### 1) Data Architecture and Modeling Questions
 
 <details> 
 <summary>Sample Q: generate the model file in lookml </summary>
@@ -36,7 +43,7 @@ explore: users {
 
 </details> 
 
-### 2) Analytical Questions
+### 2) Analytical and Business Questions
 
 <details> 
 <summary>Sample Q: Give me orders by month with price average in sql</summary>
@@ -73,15 +80,7 @@ Examples:
 
 **Important:**
 
-<span style="color:red;">At the center of **DML** is the idea that you're making changes to the **entire file** every single time. Resulting answer code automatically overwrites the existing code inside that file, and further commits it into the remote git repo. **This is by design**</span>
-
-
-## Getting Started
-
-The best way to get started is to try a few sample queries on this welcome project:
-
-- sample SQL prompts - sample_notebook2.sql 
-- sample LookML prompts - sample_notebook.sql
+<span style="color:red;">At the center of **DML** is the idea that you're making changes to the **entire file** every single time. Resulting answer code **automatically overwrites the existing code inside that file**, and further commits it into the remote git repo. **This is by design**</span>
 
 ## Writing Prompts
 
