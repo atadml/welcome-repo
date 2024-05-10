@@ -1,3 +1,5 @@
 SELECT
   *
-FROM users
+FROM orders
+WHERE
+  status = 'demo'
