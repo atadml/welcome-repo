@@ -1,5 +1,7 @@
 # Welcome!
 
+<img src="https://i.ibb.co/6wMBPYg/copilot-file.png" alt="copilot-file" border="0">
+
 ## Getting Started
 
 The best way to get started is to try a few sample queries on this welcome project:
