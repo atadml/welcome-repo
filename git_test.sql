@@ -1,5 +1,1 @@
-SELECT
-  *
-FROM orders
-WHERE
-  status = 'demo'
+resolved conflict on demo
