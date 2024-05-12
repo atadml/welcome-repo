@@ -1,27 +1,9 @@
-
-explore: order_items {
-  join: products {
-    sql_on: ${order_items.inventory_item_id} = ${products.id} ;;
-    type: inner
-    relationship: many_to_one
-  }
-  
-  join: orders {
-    sql_on: ${order_items.order_id} = ${orders.id} ;;
-    type: inner
-    relationship: many_to_one
-  }
-  
-  join: users {
-    sql_on: ${orders.user_id} = ${users.id} ;;
-    type: inner
-    relationship: many_to_one
-  }
-  
-  join: distribution_centers {
-    sql_on: ${orders.distribution_center_id} = ${distribution_centers.id} ;;
-    type: inner
-    relationship: many_to_one
-  }
-  
-}
+SELECT
+  SUM(T1.sale_quantity)
+FROM order_items AS T1
+INNER JOIN orders AS T2
+  ON T1.order_id = T2.id
+INNER JOIN users AS T3
+  ON T2.user_id = T3.id
+WHERE
+  T3.country = 'United States'
