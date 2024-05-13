@@ -1,5 +1,5 @@
 
-explore: order_itemz {
+explore: order_items {
   join: products {
     sql_on: ${order_items.inventory_item_id} = ${products.id} ;;
     type: inner
