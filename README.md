@@ -37,7 +37,7 @@ explore: users {
     sql_on: ${users.id} = ${order_items.user_id} ;;
     relationship: one_to_many
   }
-}/home/coder/welcome-repo/README.md
+}
 ....
 ```
 
