@@ -1,12 +1,7 @@
 SELECT
-  *
-FROM order_items
-WHERE order_id IN (
-  SELECT
-    order_id
-  FROM order_items
-  WHERE EXTRACT(WEEK FROM created_at) = EXTRACT(WEEK FROM CURRENT_DATE) - 1
-  GROUP BY order_id
-  ORDER BY COUNT(*) DESC
-  LIMIT 5
-)
+  COUNT(*)
+FROM users AS T1
+INNER JOIN orders AS T2
+  ON T1.id = T2.user_id
+WHERE
+  T2.created_at >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month' AND T2.created_at < DATE_TRUNC('month', CURRENT_DATE)
