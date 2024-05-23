@@ -1,14 +1,11 @@
 SELECT
-  *
-FROM (
-  SELECT
-    T1.id AS order_id,
-    T1.created_at AS order_created_at,
-    T2.id AS user_id,
-    T2.created_at AS user_created_at,
-    ROW_NUMBER() OVER (PARTITION BY T1.id ORDER BY T2.created_at) AS row_number
-  FROM orders AS T1
-  INNER JOIN users AS T2
-    ON T1.user_id = T2.id
-) AS T
-WHERE T.row_number = 1
+  T1.id AS user_id,
+  T1.first_name,
+  T1.last_name,
+  T2.id AS order_id,
+  T2.created_at AS order_created_at,
+  T2.status AS order_status
+FROM users T1
+INNER JOIN orders T2 ON T1.id = T2.user_id
+WHERE T2.status = 'delivered'
+GROUP BY 1, 2, 3, 4, 5, 6
