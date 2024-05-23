@@ -1,2 +1,2 @@
 Error: Failed to extract metadata for your project.
-metadata_init_error_log_id: 'b2e5b60b-d5fd-49f0-8cb8-94c793713e67'
+metadata_init_error_log_id: '51819355-9c29-4bdd-80af-228ce6718237'
