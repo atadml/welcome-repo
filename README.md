@@ -1,11 +1,11 @@
-# Welcome!test
+# Welcome!
 
 ## Getting Started
 
 The best way to get started is to try a few sample queries on this welcome project:
 
-- sample SQL prompts - sample_notebook2.sql4567
-- sample LookML prompts - sample_notebook.sql1233
+- sample SQL prompts - sample_notebook2.sql
+- sample LookML prompts - sample_notebook.sql
 
 ## Introduction
 
