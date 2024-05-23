@@ -1,2 +1,45 @@
-Error: Failed to extract metadata for your project.
-metadata_init_error_log_id: 'b2e5b60b-d5fd-49f0-8cb8-94c793713e67'
+view: orders {
+    sql_table_name: public.orders ;;
+
+    dimension: id {
+        primary_key: yes
+        type: number
+        sql: ${TABLE}.id ;;
+    }
+
+    dimension: user_id {
+        type: number
+        hidden: yes
+        sql: ${TABLE}.user_id ;;
+    }
+
+    dimension_group: created {
+        type: time
+        datatype: datetime
+        timeframes: [
+            raw,
+            time,
+            date,
+            week,
+            month,
+            quarter,
+            year
+        ]
+        sql: ${TABLE}.created_at ;;
+    }
+
+    dimension: status {
+        type: string
+        sql: ${TABLE}.status ;;
+    }
+
+    dimension: is_complete {
+        type: yesno
+        sql: ${status} = 'yes' ;;
+    }
+
+    measure: count {
+        type: count
+    }
+
+}
