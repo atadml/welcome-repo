@@ -1,11 +1,11 @@
-# Welcome!
+# Welcome!test
 
 ## Getting Started
 
 The best way to get started is to try a few sample queries on this welcome project:
 
-- sample SQL prompts - sample_notebook2.sql 
-- sample LookML prompts - sample_notebook.sql
+- sample SQL prompts - sample_notebook2.sql4567
+- sample LookML prompts - sample_notebook.sql1233
 
 ## Introduction
 
@@ -17,8 +17,8 @@ DML works best for two sets of tasks:
 
 <details> 
 <summary>Sample Q: generate the model file in lookml </summary>
-	
-```	lookml
+
+```lookml
 # ecommerce.model.lkml
 
 include: "users.view.lkml"
@@ -41,7 +41,7 @@ explore: users {
 ....
 ```
 
-</details> 
+</details>
 
 ### 2) Analytical and Business Questions
 
@@ -64,7 +64,7 @@ ORDER BY
 
 ```
 
-</details> 
+</details>
 
 ## Organization of the Copilot
 
@@ -72,13 +72,13 @@ DML Copilot exists in two places.
 
 - At Project-wide level
 
-    <img width="544" alt="image" src="https://raw.githubusercontent.com/atadml/welcome-repo/main/images/copilot_project.png">
-
+  <img width="544" alt="image" src="https://raw.githubusercontent.com/atadml/welcome-repo/main/images/copilot_project.png">
 - At File-specific level
 
-    <img width="215" alt="image" src="https://raw.githubusercontent.com/atadml/welcome-repo/main/images/copilot_file.png">
+  <img width="215" alt="image" src="https://raw.githubusercontent.com/atadml/welcome-repo/main/images/copilot_file.png">
 
 Examples:
+
 1. You're working on a new use case around functionality that does not currently exist in your data model => **Project-wide level**
 2. You want to make changes to your existing model file => **File-specific level**
 
@@ -89,13 +89,14 @@ Examples:
 ## Writing Prompts
 
 It is important to give a directive to DML about the language you want the answer to be written in. This is done with the **ending words** like this:
+
 - **"in sql"** - will generate sql
 - **"in lookml"** - will generate lkml code
-
 
 ## Connecting to GitHub
 
 Alternatively, you can connect your own git-based project. We currently support these inside projects:
+
 - LookML-based files
 
 <img width="348" alt="image" src="https://raw.githubusercontent.com/atadml/welcome-repo/main/images/git1.png">
