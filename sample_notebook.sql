@@ -1,35 +1,18 @@
 
-view: user_order_facts {
-  derived_table: {
-    sql:
-      SELECT
-        u.id AS user_id,
-        DATE_TRUNC('month', u.created_date) AS registration_month,
-        COUNT(o.id) AS total_orders,
-        SUM(o.total) AS total_revenue
-      FROM
-        users u
-      LEFT JOIN
-        orders o ON u.id = o.user_id
-      GROUP BY
-        user_id, registration_month
-      ;;
-  }
+# In the products.view.lkml file
+measure: total_sales {
+  type: sum
+  sql: ${sale_price} * ${sale_quantity} ;;
+}
 
-  dimension: user_id {
-    type: number
-    primary_key: yes
-    sql: ${TABLE}.user_id ;;
-  }
+# In the order_items.view.lkml file
+measure: total_cost {
+  type: sum
+  sql: ${inventory_items.cost} * ${sale_quantity} ;;
+}
 
-  dimension: registration_month {
-    type: date
-    sql: ${TABLE}.registration_month ;;
-  }
-
-  measure: average_order_value {
-    type: number
-    sql: ${total_revenue} / NULLIF(${total_orders}, 0) ;;
-    value_format_name: "decimal_2"
-  }
+# In the orders.view.lkml file
+measure: gross_profit {
+  type: number
+  sql: ${products.total_sales} - ${order_items.total_cost} ;;
 }
