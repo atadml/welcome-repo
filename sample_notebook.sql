@@ -1,7 +1,2 @@
-SELECT
-  EXTRACT(YEAR FROM created_at) AS order_year,
-  EXTRACT(MONTH FROM created_at) AS order_month,
-  COUNT(id) AS order_count
-FROM public.orders
-GROUP BY 1, 2
-ORDER BY 1, 2
+Error: Failed to extract metadata for your project.
+metadata_init_error_log_id: '41961738-d81e-4b43-af46-f36cac052a2b'
