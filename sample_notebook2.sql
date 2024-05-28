@@ -1,2 +1,5 @@
-Error: Failed to extract metadata for your project.
-metadata_init_error_log_id: '41961738-d81e-4b43-af46-f36cac052a2b'
+SELECT
+  COUNT(*)
+FROM public.orders
+WHERE
+  user_id IN (SELECT user_id FROM public.orders WHERE created_at >= '2017-01-01' AND created_at < '2018-01-01' GROUP BY user_id HAVING COUNT(*) > 1)
