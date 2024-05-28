@@ -1,2 +1,8 @@
-Error: Failed to extract metadata for your project.
-metadata_init_error_log_id: 'a0fb4a0c-3d2e-4096-809c-831721d6bbba'
+
+# user_order_facts.view.lkml
+measure: total_revenue {
+  type: sum
+  sql: ${order_items.unit_price} * ${order_items.quantity} ;;
+  value_format_name: "usd"
+  label: "Total Revenue"
+}
