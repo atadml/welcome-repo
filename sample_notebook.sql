@@ -1,5 +1,2 @@
-SELECT
-  CAST(created_at AS DATE) AS order_date,
-  COUNT(id) AS total_orders
-FROM orders
-GROUP BY 1
+Error: Failed to extract metadata for your project.
+metadata_init_error_log_id: 'a0fb4a0c-3d2e-4096-809c-831721d6bbba'
