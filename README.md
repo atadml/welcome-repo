@@ -86,13 +86,6 @@ Examples:
 
 <span style="color:red;">At the center of **DML** is the idea that you're making changes to the **entire file** every single time. Resulting answer code **automatically overwrites the existing code inside that file**, and further commits it into the remote git repo. **This is by design**</span>
 
-## Writing Prompts
-
-It is important to give a directive to DML about the language you want the answer to be written in. This is done with the **ending words** like this:
-
-- **"in sql"** - will generate sql
-- **"in lookml"** - will generate lkml code
-
 ## Connecting to GitHub
 
 Alternatively, you can connect your own git-based project. We currently support these inside projects:
