@@ -46,7 +46,7 @@ explore: users {
 ### 2) Analytical and Business Questions
 
 <details> 
-<summary>Sample Q: Give me orders by month with price average in sql</summary>
+<summary>Sample Q: Give me orders by month with price average
 
 ```sql
 SELECT 
