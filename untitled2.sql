@@ -1,11 +1,4 @@
 SELECT
   *
-FROM public.distribution_centers
-WHERE
-  country = 'USA'
-UNION ALL
-SELECT
-  *
-FROM public.distribution_centers
-WHERE
-  country = 'Canada'
+FROM information_schema.tables
+WHERE table_schema = 'public'
