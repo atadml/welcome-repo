@@ -16,7 +16,7 @@ DML works best for two sets of tasks:
 ### 1) Data Architecture and Modeling Questions
 
 <details> 
-<summary>Sample Q: generate the model file in lookml </summary>
+<summary>Sample Q: generate the model file
 
 ```lookml
 # ecommerce.model.lkml
