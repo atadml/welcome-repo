@@ -5,4 +5,4 @@ WHERE
   age > 30
 ORDER BY
   age DESC
-LIMIT 1
+LIMIT 10
