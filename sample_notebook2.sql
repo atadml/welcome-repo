@@ -1,4 +1,8 @@
 SELECT
   *
-FROM information_schema.tables
-WHERE table_schema = 'public'
+FROM public.users
+WHERE
+  age > 30
+ORDER BY
+  age DESC
+LIMIT 1
