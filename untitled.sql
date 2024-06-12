@@ -1,1 +1,8 @@
-Error: Unexpected end of JSON input
+SELECT
+  *
+FROM public.users
+WHERE
+  age > 30
+ORDER BY
+  age DESC
+LIMIT 1
