@@ -1,40 +1,45 @@
-
 view: orders {
-  sql_table_name: orders ;;
+    sql_table_name: public.orders ;;
 
-  dimension: id {
-    primary_key: yes
-    type: number
-    sql: ${TABLE}.id ;;
-  }
+    dimension: id {
+        primary_key: yes
+        type: number
+        sql: ${TABLE}.id ;;
+    }
 
-  dimension: user_id {
-    type: number
-    sql: ${TABLE}.user_id ;;
-  }
+    dimension: user_id {
+        type: number
+        hidden: yes
+        sql: ${TABLE}.user_id ;;
+    }
 
-  dimension: order_date {
-    type: date
-    sql: ${TABLE}.order_date ;;
-  }
+    dimension_group: created {
+        type: time
+        datatype: datetime
+        timeframes: [
+            raw,
+            time,
+            date,
+            week,
+            month,
+            quarter,
+            year
+        ]
+        sql: ${TABLE}.created_at ;;
+    }
 
-  measure: count {
-    type: count
-  }
+    dimension: status {
+        type: string
+        sql: ${TABLE}.status ;;
+    }
 
-  measure: total_revenue {
-    type: sum
-    sql: ${TABLE}.total_amount ;;
-    value_format_name: "usd"
-  }
+    dimension: is_complete {
+        type: yesno
+        sql: ${status} = 'yes' ;;
+    }
 
-  measure: average_order_value {
-    type: average
-    sql: ${total_revenue} / NULLIF(${count}, 0) ;;
-    value_format_name: "usd"
-  }
-  
-  # Other measures...
+    measure: count {
+        type: count
+    }
 
-  include: [user_order_facts.measure*]  # Including measures from the user_order_facts view
 }
