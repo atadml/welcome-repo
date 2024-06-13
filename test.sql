@@ -1,8 +1,4 @@
 SELECT
   *
-FROM users
-WHERE
-  age > 30
-ORDER BY
-  created_at DESC
+FROM public.users
 LIMIT 10
