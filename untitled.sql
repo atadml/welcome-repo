@@ -1,4 +1,8 @@
 SELECT
   *
 FROM public.users
-LIMIT 10
+WHERE
+  age > 30
+ORDER BY
+  age DESC
+LIMIT 1
