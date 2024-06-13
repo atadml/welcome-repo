@@ -1,23 +1,20 @@
 
-view: user_order_facts {
-  derived_table: {
-    sql:
-      SELECT
-        user_id,
-        COUNT(DISTINCT id) AS total_orders,
-        SUM(sale_price * sale_quantity) AS total_revenue
-      FROM
-        ecommerce.orders
-      GROUP BY
-        user_id
-    ;;
-  }
+# Assuming the existence of a products view with a cost dimension and an orders view with a sale_price dimension.
 
-  measure: lifetime_value {
-    type: number
-    sql: ${total_revenue} ;;
-    value_format_name: "usd"
-  }
+# products.view.lkml
+measure: total_cost {
+  type: sum
+  sql: ${cost} * ${inventory_items.quantity} ;;
+}
 
-  # other measures and dimensions...
+# orders.view.lkml
+measure: total_revenue {
+  type: sum
+  sql: ${sale_price} * ${sale_quantity} ;;
+}
+
+# In the orders.view.lkml file
+measure: gross_profit {
+  type: number
+  sql: ${total_revenue} - ${products.total_cost} ;;
 }
