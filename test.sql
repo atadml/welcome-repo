@@ -1,8 +1,9 @@
 SELECT
   *
-FROM users
+FROM public.distribution_centers
 WHERE
-  age > 30
+  country = 'USA'
 ORDER BY
-  created_at DESC
-LIMIT 10
+  state ASC,
+  town ASC
+LIMIT 1
