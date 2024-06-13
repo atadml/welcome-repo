@@ -6,4 +6,4 @@ WHERE
 ORDER BY
   state ASC,
   town ASC
-LIMIT 1
+LIMIT 10
