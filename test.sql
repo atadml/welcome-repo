@@ -1,8 +1,5 @@
 SELECT
   *
-FROM public.distribution_centers
+FROM public.users
 WHERE
-  country = 'United States'
-ORDER BY
-  id
-LIMIT 10
+  age > 30
