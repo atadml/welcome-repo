@@ -5,7 +5,7 @@
 The best way to get started is to try a few sample queries on this welcome project:
 
 - sample SQL prompts - sample_notebook2.sql
-- sample LookML prompts - sample_notebook.sql
+- sample LookML prompts - sample_notebook.lkml
 
 ## Introduction
 
