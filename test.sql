@@ -1,8 +1,6 @@
 SELECT
   *
-FROM users
-WHERE
-  age > 30
+FROM public.distribution_centers
 ORDER BY
-  created_at DESC
+  id
 LIMIT 10
