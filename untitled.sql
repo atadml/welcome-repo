@@ -1,9 +1,4 @@
 SELECT
   *
-FROM public.distribution_centers
-WHERE
-  country = 'USA'
-ORDER BY
-  state ASC,
-  town ASC
+FROM public.users
 LIMIT 10
