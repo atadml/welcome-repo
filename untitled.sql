@@ -1,5 +1,4 @@
 SELECT
   *
 FROM public.users
-WHERE
-  age > 30
+LIMIT 10
