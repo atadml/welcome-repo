@@ -1,1 +1,4 @@
 .ssh
+*.aiconv
+!sample_notebook.lkml.aiconv
+!sample_notebook2.sql.aiconv
