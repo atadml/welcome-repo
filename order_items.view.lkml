@@ -1,132 +1,38 @@
+
 view: order_items {
-  sql_table_name: public.order_items ;;
+  measure: total_sale_price {
+    type: sum
+    sql: ${sale_price} ;;
+  }
 
-  dimension: id {
-    primary_key: yes
+  measure: total_cost_price {
+    type: sum
+    sql: ${inventory_items.cost} ;; # Assuming cost is the name of the inventory_items view and the cost measure
+  }
+
+  measure: total_quantity_sold {
+    type: sum
+    sql: ${sale_quantity} ;;
+  }
+
+  measure: gross_profit {
+    type: sum
+    sql: (${sale_price} - ${inventory_items.cost}) * ${sale_quantity} ;; # Assuming cost is the name of the inventory_items view and the cost measure
+  }
+
+  measure: profit_margin {
     type: number
-    sql: ${TABLE}.id ;;
+    sql: ${gross_profit} / NULLIF(${total_sale_price},0) * 100 ;;
   }
 
-  dimension: inventory_item_id {
-    type: number
-    sql: ${TABLE}.inventory_item_id ;;
-  }
-
-  dimension: order_id {
-    type: number
-    sql: ${TABLE}.order_id ;;
-  }
-
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created_at ;;
-  }
-
-  dimension_group: delivered {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.delivered_at ;;
-  }
-
-  dimension_group: returned {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.returned_at ;;
-  }
-
-  dimension_group: shipped {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.shipped_at ;;
-  }
-
-  dimension_group: Quarterly_Result {
-    type: duration
-    intervals: [month]
-    sql_start: ${created::date} ;;
-    sql_end: CURRENT_TIMESTAMP() ;;
-  }
-
-  dimension: status {
+  # Assuming there is a products view that contains the product name and category information
+  dimension: product_name {
     type: string
-    sql: ${TABLE}.status ;;
+    sql: ${products.name} ;;
   }
 
-  dimension: sale_price {
-    type: number
-    sql: ${TABLE}.sale_price ;;
-  }
-
-  dimension: sale_quantity {
-    type: number
-    sql: ${TABLE}.sale_quantity ;;
-  }
-
-  dimension: price_range {
-    case: {
-      when: {
-        sql: ${sale_price} < 100 ;;
-        label: "Inexpensive"
-      }
-      when: {
-        sql: ${sale_price} >= 100 AND ${sale_price} < 500 ;;
-        label: "Normal"
-      }
-      when: {
-        sql: ${sale_price} >= 500 ;;
-        label: "Expensive"
-      }
-      else: "Unknown"
-    }
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
-
-  # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      id,
-      users.id,
-      users.first_name,
-      users.last_name,
-      inventory_items.id,
-      products.name
-    ]
+  dimension: product_category {
+    type: string
+    sql: ${products.category} ;;
   }
 }
