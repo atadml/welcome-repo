@@ -1,38 +1,40 @@
 
 view: order_items {
-  measure: total_sale_price {
+  # Existing dimension and measure definitions
+
+  measure: total_sales {
     type: sum
-    sql: ${sale_price} ;;
+    sql: ${sale_price} * ${sale_quantity} ;;
   }
 
-  measure: total_cost_price {
-    type: sum
-    sql: ${inventory_items.cost} ;; # Assuming cost is the name of the inventory_items view and the cost measure
-  }
-
-  measure: total_quantity_sold {
+  measure: total_items_sold {
     type: sum
     sql: ${sale_quantity} ;;
   }
 
-  measure: gross_profit {
+  measure: total_orders {
+    type: count_distinct
+    sql: ${order_id} ;;
+  }
+
+  measure: average_sale_price {
+    type: average
+    sql: ${sale_price} ;;
+  }
+
+  measure: total_returns {
     type: sum
-    sql: (${sale_price} - ${inventory_items.cost}) * ${sale_quantity} ;; # Assuming cost is the name of the inventory_items view and the cost measure
+    sql: CASE WHEN ${returned_at} IS NOT NULL THEN ${sale_quantity} ELSE 0 END ;;
   }
 
-  measure: profit_margin {
+  measure: return_rate {
     type: number
-    sql: ${gross_profit} / NULLIF(${total_sale_price},0) * 100 ;;
+    sql: ${total_returns} / NULLIF(${total_items_sold}, 0) * 100 ;;
+    value_format_name: "percent_2"
   }
 
-  # Assuming there is a products view that contains the product name and category information
-  dimension: product_name {
-    type: string
-    sql: ${products.name} ;;
-  }
-
-  dimension: product_category {
-    type: string
-    sql: ${products.category} ;;
+  measure: average_delivery_time {
+    type: average
+    sql: DATEDIFF(${delivered_at}, ${shipped_at}) ;;
   }
 }
